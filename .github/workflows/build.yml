@@ -8,16 +8,15 @@ jobs:
       - name: Unzip
         run: |
           ls -la
-          for z in *.zip; do
-            [ -f "$z" ] && unzip -o "$z" && rm -f "$z"
-          done
+          for z in *.zip; do [ -f "$z" ] && unzip -o "$z" && rm -f "$z"; done
           ls -la
           if [! -f package.json ]; then
             PKG=$(find. -maxdepth 3 -name "package.json" | head -1)
             if [ -n "$PKG" ]; then
               DIR=$(dirname "$PKG")
-              echo "Found package.json in $DIR"
-              mv "$DIR"/*. || true
+              echo "Found in $DIR"
+              cp -r $DIR/*. || true
+              cp -r $DIR/.*. || true
             fi
           fi
           ls -la
