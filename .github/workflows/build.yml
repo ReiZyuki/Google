@@ -5,14 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Unzip
+      - name: Unzip and Fix
         run: |
-          for z in *.zip; do [ -f "$z" ] && unzip -o "$z" && rm -f "$z"; done
-          if [! -f package.json ]; then
-            PKG=$(find. -maxdepth 3 -name "package.json" | head -n 1)
-            DIR=$(dirname "$PKG")
-            echo "Found in $DIR"
+          ls -la
+          for z in *.zip; do unzip -o "$z"; done || true
+          rm -f *.zip || true
+          ls -la
+          FOUND=$(find. -maxdepth 4 -name "package.json" | head -n 1)
+          echo "Found: $FOUND"
+          if [ "$FOUND"!= "./package.json" ] && [ -n "$FOUND" ]; then
+            DIR=$(dirname "$FOUND")
+            echo "Moving files from $DIR to root"
             cp -r $DIR/*. || true
+            cp -r $DIR/.*. 2>/dev/null || true
           fi
           ls -la
       - uses: actions/setup-node@v4
