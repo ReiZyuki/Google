@@ -14,5 +14,4 @@ license = {text = "MIT"}
 [tool.setuptools]
 packages = ["SimpleSyntax", "simplesyntax"]
 package-dir = {SimpleSyntax = ".", simplesyntax = "simplesyntax"}
-py-modules = ["core", "downloader", "fallback", "ffmpeg", "image", "manga_api", "media", "metadata", "observer", "parser", "playlist", "utils", "video"]
 include-package-data = true
