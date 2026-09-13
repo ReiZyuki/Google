@@ -164,8 +164,9 @@ class TestSimpleSyntaxAll(unittest.TestCase):
         from SimpleSyntax import manga_api
         self.assertTrue(manga_api.BASE_API.startswith("https://api.mangadex.org"))
         chapters = [{"attributes": {"chapter": "10"}}, {"attributes": {"chapter": "2"}}]
-        self.assertEqual(manga_api.sort_chapters(chapters, reverse=False)[0]["attributes"]["chapter"], "2")
-        self.assertEqual(manga_api.sort_chapters(chapters, reverse=True)[0]["attributes"]["chapter"], "10")
+        ordered = manga_api.sort_chapters(chapters)
+        self.assertEqual(ordered[0]["attributes"]["chapter"], "2")
+        self.assertEqual(ordered[1]["attributes"]["chapter"], "10")
 
 
 if __name__ == "__main__":
