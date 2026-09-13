@@ -17,10 +17,16 @@ def _find_reizyuki():
     try:
         frame = frame.f_back
         while frame:
-            filename = os.path.abspath(frame.f_code.co_filename)
-            if filename.startswith(LIBRARY_DIR):
+            package = frame.f_globals.get("__package__") or ""
+            module = frame.f_globals.get("__name__") or ""
+            if package == "SimpleSyntax" or module == "SimpleSyntax" or module.startswith("SimpleSyntax."):
                 frame = frame.f_back
                 continue
+            filename = os.path.abspath(frame.f_code.co_filename)
+            if filename.startswith(LIBRARY_DIR + os.sep):
+                if module.startswith("SimpleSyntax"):
+                    frame = frame.f_back
+                    continue
             if "ReiZyuki" in frame.f_locals:
                 value = frame.f_locals["ReiZyuki"]
             elif "ReiZyuki" in frame.f_globals:
